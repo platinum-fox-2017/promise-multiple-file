@@ -29,16 +29,20 @@ function findChildrens(parentArr, childrenArr) {
 }
 
 function matchParentsWithChildrens(parentFileName, childrenFileName) {
+  let parent_data;
+  let children_data;
   readFilePromise(parentFileName)
-  .then(function(parent_data){
-    readFilePromise(childrenFileName)
-    .then(function(children_data){
-      findChildrens(parent_data, children_data);
-      console.log(parent_data);
-    })
-    .catch(function(err){
-      console.log(`terjadi error dalam pembacaan data.`);
-    })
+  .then(function(data){
+    parent_data = data.slice();
+    return readFilePromise(childrenFileName)
+  })
+  .then(function(data){
+    children_data = data.slice();
+    findChildrens(parent_data, children_data)
+    return parent_data
+  })
+  .then(function(data){
+    console.log(data);
   })
   .catch(function(err){
     console.log(`terjadi error dalam pembacaan data.`);

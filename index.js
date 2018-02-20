@@ -18,12 +18,18 @@ function readFilePromise(fileName) {
 
 function matchParentsWithChildrens(parentFileName, childrenFileName) {
   // your code here... (p.s. readFilePromise function(s) should be around here..)
-  readFilePromise(parentFileName).then((parents) => {
-    sleep.sleep(3);
-    for (var i = 0; i < parents.length; i++) {
-      parents[i].childrens = [];
-    }
-    readFilePromise(childrenFileName).then((childrens) => {
+  let parents;
+  let childrens;
+  readFilePromise(parentFileName)
+    .then((data) => {
+      parents = data;
+      for (var i = 0; i < parents.length; i++) {
+        parents[i].childrens = [];
+      }
+      return readFilePromise(childrenFileName)
+    })
+    .then((data) => {
+      childrens = data;
       for (var i = 0; i < parents.length; i++) {
         for (var j = 0; j < childrens.length; j++) {
           if(childrens[j].family == parents[i].last_name){
@@ -34,19 +40,14 @@ function matchParentsWithChildrens(parentFileName, childrenFileName) {
       console.log(parents);
     })
     .catch((err) => {
-      console.log('Terjadi Error Saat Proses Pembacaan Data');
-      console.log(err);
-    });
-  })
-  .catch((err) => {
     console.log('Terjadi Error Saat Proses Pembacaan Data');
     console.log(err);
   });
 }
 
-// matchParentsWithChildrens('./parents.json', './childrens.json');
+matchParentsWithChildrens('./parents.json', './childrens.json');
 console.log("Notification : Data sedang diproses !");
 
 // // for Release 2
-matchParentsWithChildrens('./parents.json', './not_a_real_file.json');
-matchParentsWithChildrens('./not_a_real_file.json', './also_not_a_real_file.json');
+// matchParentsWithChildrens('./parents.json', './not_a_real_file.json');
+// matchParentsWithChildrens('./not_a_real_file.json', './also_not_a_real_file.json');

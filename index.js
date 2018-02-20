@@ -22,26 +22,25 @@ function readFilePromise(fileName) {
 }
 
 function matchParentsWithChildrens(parentFileName, childrenFileName) {
+  var dataParent = [];
   readFilePromise(parentFileName)
   .then(function(data1){
-    readFilePromise(childrenFileName)
-    .then(function(data2){
-      var jsonReturn = [];
-      for(let i = 0; i < data1.length;i++) {
-        let children = []
-        for(let j = 0; j < data2.length;j++) {
-          if(data1[i].last_name == data2[j].family){
-            children.push(data2[j].full_name);
-          }
+    dataParent = data1;
+    return readFilePromise(childrenFileName)
+  })
+  .then(function(data2){
+    var jsonReturn = [];
+    for(let i = 0; i < dataParent.length;i++) {
+      let children = []
+      for(let j = 0; j < data2.length;j++) {
+        if(dataParent[i].last_name == data2[j].family){
+          children.push(data2[j].full_name);
         }
-        data1[i].children = children
-        jsonReturn.push(data1[i]);
       }
-      console.log(jsonReturn);
-    })
-    .catch(function(error){
-      console.log(error);
-    })
+      dataParent[i].children = children
+      jsonReturn.push(dataParent[i]);
+    }
+    console.log(jsonReturn);
   })
   .catch(function(error){
     console.log(error);
@@ -51,6 +50,6 @@ function matchParentsWithChildrens(parentFileName, childrenFileName) {
 matchParentsWithChildrens('./parents.json', './childrens.json');
 console.log("Notification : Data sedang diproses !");
 
-// // for Release 2
+// for Release 2
 matchParentsWithChildrens('./parents.json', './not_a_real_file.json');
 matchParentsWithChildrens('./not_a_real_file.json', './also_not_a_real_file.json');

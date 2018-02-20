@@ -9,6 +9,15 @@
   "author": "Windiana",
   "license": "ISC",
   "dependencies": {
-    "sleep": "^5.1.1"
-  }
+    "sleep": "^5.1.1",
+    "sqlite3": "^3.1.13"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/platinum-fox-2017/promise-multiple-file.git"
+  },
+  "bugs": {
+    "url": "https://github.com/platinum-fox-2017/promise-multiple-file/issues"
+  },
+  "homepage": "https://github.com/platinum-fox-2017/promise-multiple-file#readme"
 }

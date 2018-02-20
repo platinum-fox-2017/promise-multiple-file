@@ -5,9 +5,9 @@ function readFilePromise(fileName) {
   return new Promise((resolve,reject) => {
     fs.readFile(fileName, 'utf8', (err,data)=>{
       if (err) {
-        reject(err)
+        reject(err);
       } else {
-        resolve(data)
+        resolve(data);
       }
     })
   })
@@ -15,16 +15,12 @@ function readFilePromise(fileName) {
 
 function matchParentsWithChildrens(parentFileName, childrenFileName) {
   // read parents
-  let parent_data =[];
-  readFilePromise(parentFileName)
-    .then((data)=>{
-      sleep.sleep(5);
-      parent_data = JSON.parse(data);
-      console.log(`file ${parentFileName} read!`);
-      // read childrens data
-      return readFilePromise(childrenFileName)
-      })
-    .then((data2)=>{
+  readFilePromise(parentFileName).then((data)=>{
+    sleep.sleep(5);
+    let parent_data = JSON.parse(data);
+    console.log(`file ${parentFileName} read!`);
+    // read childrens data
+    readFilePromise(childrenFileName).then((data2) => {
       sleep.sleep(5);
       let children_data = JSON.parse(data2);
       console.log(`file ${childrenFileName} read!`);
@@ -37,15 +33,19 @@ function matchParentsWithChildrens(parentFileName, childrenFileName) {
           }
         }
       }
+
       console.log(parent_data);
 
-      })
-    .catch((err)=>{
+    }).catch((err)=>{
       console.log(err);
       console.log('Terjadi error pada proses pembacaan data');
-      });
-}
+    });
 
+  }).catch((err)=>{
+    console.log(err);
+    console.log('Terjadi error pada proses pembacaan data');
+  });
+}
 
 matchParentsWithChildrens('./parents.json', './childrens.json');
 console.log("Notification : Data sedang diproses !");

@@ -37,11 +37,11 @@ function matchParentsWithChildrens(parentFileName, childrenFileName) {
       console.log(parent_data);
     })
     .catch(function(err){
-      console.log(err);
+      console.log(`terjadi error dalam pembacaan data.`);
     })
   })
   .catch(function(err){
-    console.log(err);
+    console.log(`terjadi error dalam pembacaan data.`);
   })
 }
 

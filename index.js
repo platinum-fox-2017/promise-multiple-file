@@ -30,10 +30,10 @@ function matchParentsWithChildrens(parentFileName, childrenFileName) {
         sleep.sleep(5)
         resolve(parent)
       }).catch(function (err) {
-        console.log(err);
+        console.log('ini error parent: '+err);
       })
-    }).catch(function (err) {
-      console.log(err);
+    }).catch(function (err2) {
+      console.log('ini error child: '+err2);
     })
   })
 }
@@ -42,6 +42,8 @@ function matchParentsWithChildrens(parentFileName, childrenFileName) {
 matchParentsWithChildrens('./parents.json', './childrens.json').then(function (result) {
   console.log(result);
 })
+
+
 console.log("Notification : Data sedang diproses !");
 //
 // // for Release 2

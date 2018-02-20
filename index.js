@@ -36,17 +36,24 @@ function matchParentsWithChildrens(parentFileName, childrenFileName) {
         }
         sleep.sleep(5)
         resolve(dataParent)
+      }).catch(err2 =>{
+        err2.message = 'Terjadi error pada proses pembacaan data children'
+        console.log(err2)
+        
       })
       
+    }).catch(err1=>{
+      err1.message = 'Terjadi error pada proses pembacaan data parent'
+      console.log(err1)
     })
    
   })
   
 }
 
-matchParentsWithChildrens('./parents.json', './childrens.json').then(data=>{
-  console.log(data)
-})
+// matchParentsWithChildrens('./parents.json', './childrens.json').then(data=>{
+//   console.log(data)
+// })
 
 console.log("Notification : Data sedang diproses !");
 
@@ -56,6 +63,5 @@ console.log("Notification : Data sedang diproses !");
 //   console.log(err)
 // })
 // for Release 2
-// matchParentsWithChildrens('./parents.json', './not_a_real_file.json');
-// matchParentsWithChildrens('./not_a_real_file.json', './also_not_a_real_file.json');
-
+matchParentsWithChildrens('./parents.json', './not_a_real_file.json')
+matchParentsWithChildrens('./not_a_real_file.json', './also_not_a_real_file.json')

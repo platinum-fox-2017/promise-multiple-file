@@ -14,6 +14,7 @@ function readFilePromise(file) {
 }
 
 function matchParentsWithChildrens(parentFileName, childrenFileName) {
+  /*
     readFilePromise(parentFileName).then(parent_data=>{
       readFilePromise(childrenFileName).then(children_data=>{
         for(let i =0; i<parent_data.length; i++){
@@ -32,6 +33,24 @@ function matchParentsWithChildrens(parentFileName, childrenFileName) {
     }).catch(err=>{
       err.message ='terjadi error pada proses pembacaan data parentFileName' 
       console.log(err)        
+    })
+  */
+    // using promise all
+    let parent = readFilePromise(parentFileName)
+    let children = readFilePromise(childrenFileName)
+    Promise.all([parent, children]).then(data=>{
+      for(let i =0; i<data[0].length; i++){
+        data[0][i].children = []
+        for(let j =0; j<data[1].length; j++){
+          if(data[0][i].last_name ===data[1][j].family){
+            data[0][i].children.push(data[1][j].full_name)
+          }
+        }
+      }
+      console.log(data[0])      
+    }).catch(err=>{
+      err.message = 'terjadi error pada proses pembacaan data'
+      console.log(err)
     })
 }
 

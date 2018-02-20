@@ -7,7 +7,7 @@ function readFilePromise(file) {
     sleep.sleep(5)
     fs.readFile(file,function(err, data){
       if(err){
-        reject(err)
+        reject('terjadi error pada proses pembacaan file')
       }
       else{
         var parseData = JSON.parse(data)

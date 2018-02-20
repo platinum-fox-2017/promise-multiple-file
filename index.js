@@ -20,16 +20,16 @@ function matchParentsWithChildrens(parentFileName, childrenFileName) {
   // your code here... (p.s. readFilePromise function(s) should be around here..)
   let parents;
   let childrens;
-  readFilePromise(parentFileName)
-    .then((data) => {
-      parents = data;
+  let readFileParent = readFilePromise(parentFileName);
+  let readFileChildren = readFilePromise(childrenFileName);
+  Promise.all([readFileParent,readFileChildren])
+    .then((values) => {
+      parents = values[0];
+      childrens = values[1];
+      //add childrens property to parent object
       for (var i = 0; i < parents.length; i++) {
         parents[i].childrens = [];
       }
-      return readFilePromise(childrenFileName)
-    })
-    .then((data) => {
-      childrens = data;
       for (var i = 0; i < parents.length; i++) {
         for (var j = 0; j < childrens.length; j++) {
           if(childrens[j].family == parents[i].last_name){
@@ -39,10 +39,6 @@ function matchParentsWithChildrens(parentFileName, childrenFileName) {
       }
       console.log(parents);
     })
-    .catch((err) => {
-    console.log('Terjadi Error Saat Proses Pembacaan Data');
-    console.log(err);
-  });
 }
 
 matchParentsWithChildrens('./parents.json', './childrens.json');
